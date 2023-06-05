@@ -1,5 +1,5 @@
 package com.example.congespring.Entity;
 
-public enum TypeEmploye {
+public enum RoleType {
 	manager,RH,developpeur
 }

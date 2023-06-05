@@ -1,39 +1,23 @@
 package com.example.congespring.Entity;
 
-public class Reclamation {
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-    private int idReclamation;
-    private String description;
+import javax.persistence.*;
+
+@Entity
+@Getter
+@Setter
+@ToString
+public class Reclamation {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+     Long idReclamation;
+     String description;
 
     public Reclamation() {
     }
-
-    public Reclamation(int idReclamation, String description) {
-        this.idReclamation = idReclamation;
-        this.description = description;
-    }
-
-    public int getIdReclamation() {
-        return idReclamation;
-    }
-
-    public void setIdReclamation(int idReclamation) {
-        this.idReclamation = idReclamation;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return "Reclamation{" +
-                "idReclamation=" + idReclamation +
-                ", description='" + description + '\'' +
-                '}';
-    }
+    @OneToOne(mappedBy="reclamation")
+    private DemandeConge demandeConge;
 }

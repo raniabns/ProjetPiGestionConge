@@ -1,72 +1,35 @@
 package com.example.congespring.Entity;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+@Getter
+@Setter
+@ToString
 public class User {
-
-    private int idUser;
-    private String nom;
-    private String prenom;
-    private String mail;
-    private String motPasse;
-
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long idUser;
+    String nom;
+    String prenom;
+    String mail;
+    String motPasse;
+    Long soldeconge;
+    @Enumerated(EnumType.STRING)
+     RoleType roletype;
     public User() {
     }
 
-    public User(int idUser, String nom, String prenom, String mail, String motPasse) {
-        this.idUser = idUser;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.mail = mail;
-        this.motPasse = motPasse;
-    }
+@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
 
-    public int getIdEmploye() {
-        return idUser;
-    }
+private Set<DemandeConge> conges;
+    @ManyToOne
+    private Equipe equipe;
 
-    public void setIdEmploye(int idEmploye) {
-        this.idUser = idEmploye;
-    }
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public String getMotPasse() {
-        return motPasse;
-    }
-
-    public void setMotPasse(String motPasse) {
-        this.motPasse = motPasse;
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "idEmploye=" + idUser +
-                ", nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", mail='" + mail + '\'' +
-                ", motPasse='" + motPasse + '\'' +
-                '}';
-    }
 }

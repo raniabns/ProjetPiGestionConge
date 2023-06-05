@@ -1,2 +1,4 @@
-package com.example.congespring.Service;public interface IUserService {
+package com.example.congespring.Service;
+
+public interface IUserService {
 }

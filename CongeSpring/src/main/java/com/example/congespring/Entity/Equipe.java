@@ -1,36 +1,26 @@
 package com.example.congespring.Entity;
 
-public class Equipe {
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-    private int idEquipe;
-    private String nom;
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+@Setter
+@Getter
+@ToString
+public class Equipe {
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+  Long idEquipe;
+  String nom;
 
     public Equipe() {
     }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="equipe")
 
-    public Equipe(int idEquipe, String nom) {
-        this.idEquipe = idEquipe;
-        this.nom = nom;
-    }
+    private Set <User> users;
 
-    public int getIdEquipe() {
-        return idEquipe;
-    }
-
-    public void setIdEquipe(int idEquipe) {
-        this.idEquipe = idEquipe;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    @Override
-    public String toString() {
-        return "Equipe{" + "idEquipe=" + idEquipe + ", nom='" + nom + '\'' + '}';
-    }
 }
