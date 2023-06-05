@@ -1,18 +1,18 @@
 package com.example.congespring.Entity;
 
-public class Employe {
+public class User {
 
-    private int idEmploye;
+    private int idUser;
     private String nom;
     private String prenom;
     private String mail;
     private String motPasse;
 
-    public Employee() {
+    public User() {
     }
 
-    public Employee(int idEmploye, String nom, String prenom, String mail, String motPasse) {
-        this.idEmploye = idEmploye;
+    public User(int idUser, String nom, String prenom, String mail, String motPasse) {
+        this.idUser = idUser;
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
@@ -20,11 +20,11 @@ public class Employe {
     }
 
     public int getIdEmploye() {
-        return idEmploye;
+        return idUser;
     }
 
     public void setIdEmploye(int idEmploye) {
-        this.idEmploye = idEmploye;
+        this.idUser = idEmploye;
     }
 
     public String getNom() {
@@ -62,7 +62,7 @@ public class Employe {
     @Override
     public String toString() {
         return "Employee{" +
-                "idEmploye=" + idEmploye +
+                "idEmploye=" + idUser +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", mail='" + mail + '\'' +

@@ -8,6 +8,7 @@ public class Conge {
 	private TypeConge type;
 	private String dateDebut;
 	private String dateFin ;
+
 	private Long soldeconge;
 	public Long getIdConge() {
 		return idConge;
