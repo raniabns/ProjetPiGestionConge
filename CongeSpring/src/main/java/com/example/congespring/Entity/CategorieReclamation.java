@@ -1,5 +1,5 @@
 package com.example.congespring.Entity;
 
-public enum categorieReclamation {
+public enum CategorieReclamation {
     High ,Meduim,Low
 }
