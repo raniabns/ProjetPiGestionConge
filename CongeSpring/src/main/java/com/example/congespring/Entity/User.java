@@ -19,6 +19,8 @@ public class User {
     String prenom;
     String mail;
     String motPasse;
+    int soldeCongeInitial;
+   int soldeCongeDisponible;
     Long soldeconge;
     @Enumerated(EnumType.STRING)
      RoleType roletype;
@@ -32,4 +34,10 @@ private Set<DemandeConge> conges;
     private Equipe equipe;
 
 
+    public boolean estAuTravail() {
+        TypeConge typeconge = null;
+
+        // Exemple : Vérifier si l'employé a un statut "Travail" ou "Congé Maladie" dans son emploi du temps actuel
+        return typeconge == TypeConge.Trvail;
+    }
 }

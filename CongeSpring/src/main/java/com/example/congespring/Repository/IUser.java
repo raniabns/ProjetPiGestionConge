@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface IUser extends JpaRepository<User, Long> {
-
+List <User >findByEquipeIdEquipe(Long idEquipe);
 
 }
 
