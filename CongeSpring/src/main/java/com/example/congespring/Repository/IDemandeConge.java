@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IDemandeConge extends JpaRepository<DemandeConge, Long> {
-long findByUserIdUser (Long idUser);
+long findByUserIdUser (Long idCUser);
 }

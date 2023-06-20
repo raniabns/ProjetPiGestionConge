@@ -5,6 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -15,8 +17,10 @@ public class DemandeConge {
 	 Long idConge;
 	@Enumerated(EnumType.STRING)
 	 TypeConge type;
-     String dateDebut;
-	 String dateFin ;
+	@Temporal(TemporalType.DATE)
+	Date dateDebut;
+	@Temporal(TemporalType.DATE)
+	 Date dateFin ;
      Long duree ;
 	 Long nbreconge;
    public DemandeConge(){

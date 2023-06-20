@@ -13,27 +13,28 @@ import java.util.List;
 @Service
 public class DemandeCongeService implements IDemandeCongeService {
     @Autowired
-     IDemandeConge idemandeConge;
+    IDemandeConge idemandeConge;
     @Autowired
-     IUser iuser;
+    IUser iuser;
     @Autowired
     IEquipe iEquipe;
 
-@Override
+    @Override
     public DemandeConge ajouterdemandeConge(DemandeConge c) {
         return
                 idemandeConge.save(c);
     }
+
     @Override
-    public boolean verifierSoldeConge(long idUser, Long duree) {
+    public boolean verifierSoldeConge(long idUser, long duree) {
         // Vérifier le solde de congé de l'employé et la durée de congé demandée
 
         User user = iuser.findById(idUser).orElse(null);
 
         if (user != null) {
-            int soldeCongeDisponible = user.getSoldeCongeDisponible();
+            int soldeConge = user.getSoldeconge();
 
-            if (duree <= soldeCongeDisponible) {
+            if (duree <= soldeConge) {
                 return true;
             }
         }
@@ -42,28 +43,20 @@ public class DemandeCongeService implements IDemandeCongeService {
     }
 
 
-
     public boolean verifierPresenceEquipe(long idEquipe) {
         List<User> equipe = iuser.findByEquipeIdEquipe(idEquipe);
-
         if (equipe.isEmpty()) {
             return false; // L'équipe n'a pas été trouvée
         }
 
-        // Vérifier la présence de 20% de l'équipe au travail
-        int totalEmployes = equipe.size();
-        int employesAuTravail = 0;
+        double pourcentagePresence = (double) equipe.stream()
+                .filter(User::estAuTravail)
+                .count() / equipe.size();
 
-        for (User membre : equipe) {
-            if (membre.estAuTravail()) {
-                employesAuTravail++;
-            }
-        }
-
-        double pourcentagePresence = (double) employesAuTravail / totalEmployes;
-
-        return pourcentagePresence >= 0.2; // Vérifier si le pourcentage de présence est supérieur ou égal à 20%
+        return pourcentagePresence >= 0.2;
     }
+
+
 
 
     public boolean existeEvenementEntreprise() {
@@ -74,21 +67,22 @@ public class DemandeCongeService implements IDemandeCongeService {
         return false; // ou true s'il existe un événement
     }
 @Override
-    public boolean faireDemandeConge(DemandeConge demandeConge,Long idUser) {
+    public boolean faireDemandeConge(DemandeConge demandeConge,long idUser) {
         // Vérifier le solde de congé de l'employé
-        if (!verifierSoldeConge(idemandeConge.findByUserIdUser(idUser) ,demandeConge.getDuree())) {
-            return false;
-        }
+    User user = iuser.findById(idUser).orElse(null);
+    if (user == null || !verifierSoldeConge(idUser, demandeConge.getDuree())) {
+        return false;
+    }
 
-        // Vérifier la présence de 20% de l'équipe au travail
-        if (!verifierPresenceEquipe(idemandeConge.findByUserIdUser(idUser))) {
-            return false;
-        }
+    /* Vérifier la présence de 20% de l'équipe au travail
+    if (!verifierPresenceEquipe(idemandeConge.findByUserIdUser(idUser))) {
+        return false;
+    }
 
         // Vérifier l'absence d'événement dans l'entreprise
-        if (existeEvenementEntreprise()) {
+       /* if (existeEvenementEntreprise()) {
             return false;
-        }
+        }*/
 
         // Effectuer d'autres vérifications spécifiques si nécessaire
 
@@ -99,7 +93,7 @@ public class DemandeCongeService implements IDemandeCongeService {
     }
 
     @Override
-    public DemandeConge modifierdemandeConge(Long idConge, DemandeConge c) {
+    public DemandeConge modifierdemandeConge(long idConge, DemandeConge c) {
         DemandeConge d = idemandeConge.findById(idConge).get();
 
         d.setDateDebut(c.getDateDebut());
@@ -114,7 +108,7 @@ public class DemandeCongeService implements IDemandeCongeService {
         return conges;
     }
 @Override
-public void supprimerDemandeConge(Long idConge) {
+public void supprimerDemandeConge(long idConge) {
     idemandeConge.deleteById(idConge);
 }
 

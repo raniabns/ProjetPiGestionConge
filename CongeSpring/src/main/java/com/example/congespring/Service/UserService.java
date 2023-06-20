@@ -14,15 +14,16 @@ public class UserService implements IUserService {
     IDemandeConge iDemandeConge;
 
    @Override
-    public User mettreAJourSoldeConge(Long idUser, int soldeconge) {
+    public User mettreAJourSoldeConge(Long idUser) {
         User user = iUser.findById(idUser).orElse(null);
         if (user != null) {
-            int soldeCongeUtilise = user.getSoldeCongeInitial() - user.getSoldeCongeDisponible();
-            int soldeConge =soldeconge - soldeCongeUtilise;
-            user.setSoldeconge((long) soldeConge);
+            int soldedeConge = user.getSoldeCongeInitial() - user.getSoldeCongeApris();
+            user.setSoldeconge(soldedeConge);
            iUser.save(user);
         }
 
         return user;
     }
+
+
 }

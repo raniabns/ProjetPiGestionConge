@@ -1,5 +1,6 @@
 package com.example.congespring.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,15 +21,15 @@ public class User {
     String mail;
     String motPasse;
     int soldeCongeInitial;
-   int soldeCongeDisponible;
-    Long soldeconge;
+   int soldeCongeApris;
+    int soldeconge;
     @Enumerated(EnumType.STRING)
      RoleType roletype;
     public User() {
     }
 
 @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-
+@JsonIgnore
 private Set<DemandeConge> conges;
     @ManyToOne
     private Equipe equipe;
@@ -38,6 +39,6 @@ private Set<DemandeConge> conges;
         TypeConge typeconge = null;
 
         // Exemple : Vérifier si l'employé a un statut "Travail" ou "Congé Maladie" dans son emploi du temps actuel
-        return typeconge == TypeConge.Trvail;
+        return typeconge == TypeConge.Travail;
     }
 }

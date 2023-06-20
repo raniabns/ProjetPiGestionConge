@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface IDemandeCongeService {
     DemandeConge ajouterdemandeConge(DemandeConge c);
-   DemandeConge modifierdemandeConge(Long idConge,DemandeConge c);
+   DemandeConge modifierdemandeConge(long idConge,DemandeConge c);
    List <DemandeConge> AfficheDemandeConge();
-   void supprimerDemandeConge(Long idConge) ;
-    boolean verifierSoldeConge(long idUser, Long duree);
-    boolean verifierPresenceEquipe(long employeId);
+   void supprimerDemandeConge(long idConge) ;
+    boolean verifierSoldeConge(long idUser, long duree);
+    boolean verifierPresenceEquipe(long idEquipe);
     boolean existeEvenementEntreprise();
-    boolean faireDemandeConge(DemandeConge demandeConge,Long idUser);
+    boolean faireDemandeConge(DemandeConge demandeConge,long idUser);
     }
 
 

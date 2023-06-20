@@ -5,5 +5,5 @@ import com.example.congespring.Entity.User;
 public interface IUserService {
 
 
-   User mettreAJourSoldeConge(Long idUser, int soldeconge);
+   User mettreAJourSoldeConge(Long idUser);
 }
