@@ -44,13 +44,13 @@ public class DemandeCongeService implements IDemandeCongeService {
 
 
     public boolean verifierPresenceEquipe(long idEquipe) {
-        List<User> equipe = iuser.findByEquipeIdEquipe(idEquipe);
+        List<DemandeConge> equipe = iuser.findByEquipeIdEquipe(idEquipe);
         if (equipe.isEmpty()) {
             return false; // L'équipe n'a pas été trouvée
         }
 
         double pourcentagePresence = (double) equipe.stream()
-                .filter(User::estAuTravail)
+                .filter(DemandeConge -> DemandeConge.estAuTravail())
                 .count() / equipe.size();
 
         return pourcentagePresence >= 0.2;

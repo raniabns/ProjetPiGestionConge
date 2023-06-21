@@ -14,23 +14,30 @@ import java.util.Date;
 public class DemandeConge {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	 Long idConge;
+	Long idConge;
 	@Enumerated(EnumType.STRING)
-	 TypeConge type;
+	TypeConge type;
 	@Temporal(TemporalType.DATE)
 	Date dateDebut;
 	@Temporal(TemporalType.DATE)
-	 Date dateFin ;
-     Long duree ;
-	 Long nbreconge;
-   public DemandeConge(){
+	Date dateFin;
+	Long duree;
+	Long nbreconge;
 
-   }
+	public DemandeConge() {
+
+	}
+
 	@ManyToOne
 	private User user;
 	@OneToOne
-	private  Reclamation reclamation;
+	private Reclamation reclamation;
 
-	
-	
+	public boolean estAuTravail() {
+
+		return type == TypeConge.Travail;
+	}
+	// Exemple : Vérifier si l'employé a un statut "Travail" ou "Congé Maladie" dans son emploi du temps actuel
+
+
 }

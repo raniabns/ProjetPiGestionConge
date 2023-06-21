@@ -40,10 +40,16 @@ public class DemandeCongeController {
     }
 
     @GetMapping("/{idEquipe}/presence")
-    public  boolean verifierPresenceEquipe(@PathVariable("idEquipe") Long idEquipe){
+    public   ResponseEntity<String> verifierPresenceEquipe(@PathVariable("idEquipe") Long idEquipe){
 
-       return  iDemandeCongeservice.verifierPresenceEquipe(idEquipe);
-    }
+
+        boolean equipepresent = iDemandeCongeservice.verifierPresenceEquipe(idEquipe);
+
+        if (!equipepresent) {
+            return ResponseEntity.badRequest().body("mois de 20% de l'equipe sont presents ");
+        }
+        else {
+            return ResponseEntity.ok("La presence de lequipe suffisant");}  }
     @GetMapping("/verifier-solde-conge/{idUser}/{duree}")
     public boolean verifierSoldeConge(@PathVariable("idUser") long idUser, @PathVariable("duree")Long duree) {
 
