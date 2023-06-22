@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -13,11 +14,21 @@ import javax.persistence.*;
 public class Reclamation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     Long idReclamation;
-     String description;
+    Long idReclamation;
+    private String titre;
+    @Enumerated(EnumType.STRING)
+    CategorieReclamation categorie;
+    private String  description;
+    @Temporal (TemporalType.DATE)
+    private Date dateReclamation;
+    @Enumerated(EnumType.STRING)
+    TypeConge type;
 
-    public Reclamation() {
-    }
-    @OneToOne(mappedBy="reclamation")
-    private DemandeConge demandeConge;
+
+    @ManyToOne
+    private User user;
+
+
+
+
 }
