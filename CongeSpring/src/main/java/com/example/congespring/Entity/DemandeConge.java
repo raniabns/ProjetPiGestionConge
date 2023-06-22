@@ -34,10 +34,32 @@ public class DemandeConge {
 	private Reclamation reclamation;
 
 	public boolean estAuTravail() {
+		// Liste des types de congés qui indiquent que l'employé n'est pas au travail
+		TypeConge[] typesAbsence = {
+				TypeConge.conge_maladie,
+				TypeConge.conge_sanssolde,
+				TypeConge.conge_paye,
+				TypeConge.conge_maladie,
+				TypeConge.conge_ordinaire,
+				TypeConge.conge_maternite,
+				TypeConge.conge_annuel
+				// Ajoutez d'autres types de congés d'absence ici si nécessaire
 
-		return type == TypeConge.Travail;
-	}
-	// Exemple : Vérifier si l'employé a un statut "Travail" ou "Congé Maladie" dans son emploi du temps actuel
+		};
+
+		// Vérifier si le type de congé fait partie des types d'absence
+		for (TypeConge absence : typesAbsence) {
+			if (type == absence) {
+				return false;
+			}
+		}
+
+		return true;
 
 
-}
+
+
+
+
+
+}}

@@ -1,6 +1,7 @@
 package com.example.congespring.Service;
 
 import com.example.congespring.Entity.DemandeConge;
+import com.example.congespring.Entity.Equipe;
 import com.example.congespring.Entity.User;
 import com.example.congespring.Repository.IEquipe;
 import com.example.congespring.Repository.IUser;
@@ -43,41 +44,59 @@ public class DemandeCongeService implements IDemandeCongeService {
     }
 
 
-    public boolean verifierPresenceEquipe(long idEquipe) {
-        List<DemandeConge> equipe = iuser.findByEquipeIdEquipe(idEquipe);
-        if (equipe.isEmpty()) {
-            return false; // L'équipe n'a pas été trouvée
+
+    @Override
+    public boolean verifierPresenceCollaborateurs(long idEquipe) {
+        Equipe equipe = iEquipe.findById(idEquipe).orElse(null);
+        if (equipe == null) {
+            // L'équipe n'existe pas
+            return false;
         }
 
-        double pourcentagePresence = (double) equipe.stream()
-                .filter(DemandeConge -> DemandeConge.estAuTravail())
-                .count() / equipe.size();
+        int nombreCollaborateurs = equipe.getUsers().size();
+        int seuilPresence = (int) Math.ceil(nombreCollaborateurs * 0.2); // 20% arrondi supérieur
 
-        return pourcentagePresence >= 0.2;
+        int nombreCollaborateursPresent = 0;
+        for (User user : equipe.getUsers()) {
+            boolean estAuTravail = false; // Indicateur pour vérifier si le collaborateur est au travail
+            for (DemandeConge demandeConge : user.getConges()) {
+                if (demandeConge.estAuTravail()) {
+                    estAuTravail = true;
+                    break; // Sortir de la boucle si le collaborateur est au travail
+                }
+            }
+            if (estAuTravail) {
+                nombreCollaborateursPresent++;
+            }
+        }
+
+        return nombreCollaborateursPresent >= seuilPresence;
     }
 
-
-
-
+    @Override
     public boolean existeEvenementEntreprise() {
-        // Vérifier l'absence d'événement dans l'entreprise
-
-        // Implémentation spécifique
-
-        return false; // ou true s'il existe un événement
+        return false;
     }
+
+
+    /*@Override
+        public boolean existeEvenementEntreprise() {
+            // Vérifier l'absence d'événement dans l'entreprise
+
+            // Implémentation spécifique
+
+            return false; // ou true s'il existe un événement
+        }*/
 @Override
-    public boolean faireDemandeConge(DemandeConge demandeConge,long idUser) {
+    public boolean faireDemandeConge(DemandeConge demandeConge,long idUser,long idEquipe) {
         // Vérifier le solde de congé de l'employé
     User user = iuser.findById(idUser).orElse(null);
     if (user == null || !verifierSoldeConge(idUser, demandeConge.getDuree())) {
-        return false;
+        return false;}
+    if (!verifierPresenceCollaborateurs(idEquipe)){
+        return  false;
     }
 
-    /* Vérifier la présence de 20% de l'équipe au travail
-    if (!verifierPresenceEquipe(idemandeConge.findByUserIdUser(idUser))) {
-        return false;
-    }
 
         // Vérifier l'absence d'événement dans l'entreprise
        /* if (existeEvenementEntreprise()) {
@@ -107,6 +126,14 @@ public class DemandeCongeService implements IDemandeCongeService {
         List<DemandeConge> conges= (List<DemandeConge>) idemandeConge.findAll();
         return conges;
     }
+    @Override
+    public DemandeConge RetrouverDemandeConge(long  idConge){
+   return idemandeConge.findById(idConge).get();
+    }
+   {
+
+    }
+
 @Override
 public void supprimerDemandeConge(long idConge) {
     idemandeConge.deleteById(idConge);

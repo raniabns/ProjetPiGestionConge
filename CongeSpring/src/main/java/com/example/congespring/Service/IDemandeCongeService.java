@@ -10,9 +10,11 @@ public interface IDemandeCongeService {
    List <DemandeConge> AfficheDemandeConge();
    void supprimerDemandeConge(long idConge) ;
     boolean verifierSoldeConge(long idUser, long duree);
-    boolean verifierPresenceEquipe(long idEquipe);
+   boolean verifierPresenceCollaborateurs(long idEquipe);
+
     boolean existeEvenementEntreprise();
-    boolean faireDemandeConge(DemandeConge demandeConge,long idUser);
+    boolean faireDemandeConge(DemandeConge demandeConge,long idUser,long idEquipe);
+     DemandeConge RetrouverDemandeConge(long  idConge);
     }
 
 

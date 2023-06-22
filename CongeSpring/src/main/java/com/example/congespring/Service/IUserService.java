@@ -6,4 +6,5 @@ public interface IUserService {
 
 
    User mettreAJourSoldeConge(Long idUser);
+   void mettreAJourSoldeCongePourTousLesUtilisateurs();
 }

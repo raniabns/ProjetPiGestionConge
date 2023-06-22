@@ -24,48 +24,52 @@ public class DemandeCongeController {
     }
 
     @GetMapping("/allDemandeConge")
-    public List<DemandeConge> AfficheDemandeConge(@RequestBody List<DemandeConge> conges) {
+    public List<DemandeConge> AfficheDemandeConge() {
         return iDemandeCongeservice.AfficheDemandeConge();
+        }
+    @GetMapping("/TrouverUnedemandeConge/{idConge}")
+    public DemandeConge RetrouverDemandeConge(@PathVariable("idConge")long  idConge){
+        return iDemandeCongeservice.RetrouverDemandeConge(idConge);
     }
 
     @PutMapping("/modifconge/{idConge}")
-    public DemandeConge modifierdemandeConge(@PathVariable("idConge") Long idConge, @RequestBody DemandeConge c) {
+    public DemandeConge modifierdemandeConge(@PathVariable("idConge") long idConge, @RequestBody DemandeConge c) {
         return iDemandeCongeservice.modifierdemandeConge(idConge, c);
     }
 
     @DeleteMapping("/{idConge}")
-    public void supprimerDemandeConge(@PathVariable("idConge") Long idConge) {
+    public void supprimerDemandeConge(@PathVariable("idConge") long idConge) {
         iDemandeCongeservice.supprimerDemandeConge(idConge);
 
     }
 
     @GetMapping("/{idEquipe}/presence")
-    public   ResponseEntity<String> verifierPresenceEquipe(@PathVariable("idEquipe") Long idEquipe){
+    public  boolean verifierPresenceCollaborateurs(@PathVariable("idEquipe") long idEquipe){
 
-
-        boolean equipepresent = iDemandeCongeservice.verifierPresenceEquipe(idEquipe);
-
-        if (!equipepresent) {
-            return ResponseEntity.badRequest().body("mois de 20% de l'equipe sont presents ");
-        }
-        else {
-            return ResponseEntity.ok("La presence de lequipe suffisant");}  }
+      return  iDemandeCongeservice.verifierPresenceCollaborateurs(idEquipe);
+    }
     @GetMapping("/verifier-solde-conge/{idUser}/{duree}")
-    public boolean verifierSoldeConge(@PathVariable("idUser") long idUser, @PathVariable("duree")Long duree) {
+    public boolean verifierSoldeConge(@PathVariable("idUser") long idUser, @PathVariable("duree")long duree) {
 
         // Vérifier le solde de congé
         return iDemandeCongeservice.verifierSoldeConge(idUser, duree);
     }
 
-    @PostMapping("/demandes/{idUser}")
-    public ResponseEntity<String> faireDemandeConge(@RequestBody DemandeConge demandeConge,@PathVariable("idUser") Long idUser) {
+    @PostMapping("/demandes/{idUser}/{idEquipe}")
+    public ResponseEntity<String> faireDemandeConge(@RequestBody DemandeConge demandeConge,@PathVariable("idUser") long idUser,@PathVariable("idEquipe")long idEquipe) {
         boolean soldeSuffisant = iDemandeCongeservice.verifierSoldeConge(idUser, demandeConge.getDuree());
 
         if (!soldeSuffisant) {
             return ResponseEntity.badRequest().body("Le solde de congé est insuffisant.");
         }
+        boolean presencecollaborateur = iDemandeCongeservice.verifierPresenceCollaborateurs(idEquipe);
 
-        boolean demandeAcceptee = iDemandeCongeservice.faireDemandeConge(demandeConge,idUser);
+        if (!presencecollaborateur) {
+            return ResponseEntity.badRequest().body("moins de 20% present dans l'equipe.");
+        }
+
+
+        boolean demandeAcceptee = iDemandeCongeservice.faireDemandeConge(demandeConge,idUser,idEquipe);
         if (demandeAcceptee) {
             return ResponseEntity.ok("Demande de congé créée avec succès.");
         } else {
