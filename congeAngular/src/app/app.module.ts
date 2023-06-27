@@ -6,24 +6,6 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { AppComponent } from './app.component';
-<<<<<<< HEAD
-import { DemandeCongeComponent } from './demande-conge/demande-conge.component';
-import {FormsModule} from "@angular/forms";
-import {RouterModule} from "@angular/router";
-import {HttpClientModule} from "@angular/common/http";
-
-@NgModule({
-  declarations: [
-    AppComponent,
-    DemandeCongeComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    RouterModule,
-    HttpClientModule
-=======
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 
 @NgModule({
@@ -40,7 +22,6 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
     AppComponent,
     AdminLayoutComponent,
 
->>>>>>> omarskhiri
   ],
   providers: [],
   bootstrap: [AppComponent]
