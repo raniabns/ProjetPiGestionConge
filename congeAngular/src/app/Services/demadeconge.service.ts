@@ -8,7 +8,7 @@ import {DemandeConge} from "../Models/DemandeConge";
 })
 export class DemadecongeService {
 
-  baseUrl ="http://localhost:8080/conge/swagger-ui/index.html#/DemandeConge/";
+  baseUrl ="http://localhost:8080/conge/";
 
   constructor(private http: HttpClient) { }
 
@@ -17,5 +17,8 @@ export class DemadecongeService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.post<any>(url, demandeConge, { headers, observe: 'response' });
+  }
+  RetrouverDemandeConge(idConge:any):Observable<DemandeConge>{
+    return this.http.get<DemandeConge>(this.baseUrl+idConge)
   }
 }
