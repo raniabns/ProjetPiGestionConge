@@ -5,7 +5,12 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
+import java.util.UUID;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Getter
@@ -25,9 +30,9 @@ public class Reclamation {
     TypeConge type;
 
 
+
     @ManyToOne
     private User user;
-
 
 
 

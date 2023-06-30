@@ -1,5 +1,4 @@
 package com.example.congespring.Service.imp;
-import com.example.congespring.Entity.DemandeConge;
 import com.example.congespring.Entity.Reclamation;
 import com.example.congespring.Repository.ReclamationRepository;
 import com.example.congespring.Service.interfaces.ReclamationService;
@@ -7,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 @Aspect
@@ -57,4 +58,12 @@ public class ReclamationServiceImp implements ReclamationService {
 
 
     }
+
+    @Override
+    public void deleteExpiredReclamations() {
+        LocalDate currentDate = LocalDate.now();
+        List<Reclamation> expiredReclamations = Reclamationrepository.findByDateReclamationBefore(currentDate);
+        Reclamationrepository.deleteAll(expiredReclamations);
+    }
+
 }

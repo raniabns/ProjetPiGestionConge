@@ -15,4 +15,7 @@ public interface ReclamationService {
     Reclamation updateReclamation(Long idRecalamation,Reclamation r);
     Reclamation retrieveReclamationById(Long id);
     String deleteReclamation(Long id);
+
+
+    void deleteExpiredReclamations();
 }
