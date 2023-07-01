@@ -24,6 +24,7 @@ public class DemandeConge {
 	Date dateFin;
 	Long duree;
 	Long nbreconge;
+	String etatDemande;
 
 	public DemandeConge() {
 

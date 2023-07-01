@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Optional;
 
 @Service
 public class DemandeCongeService implements IDemandeCongeService {
@@ -79,14 +82,6 @@ public class DemandeCongeService implements IDemandeCongeService {
     }
 
 
-    /*@Override
-        public boolean existeEvenementEntreprise() {
-            // Vérifier l'absence d'événement dans l'entreprise
-
-            // Implémentation spécifique
-
-            return false; // ou true s'il existe un événement
-        }*/
 @Override
     public boolean faireDemandeConge(DemandeConge demandeConge,long idUser,long idEquipe) {
         // Vérifier le solde de congé de l'employé
@@ -139,6 +134,54 @@ public void supprimerDemandeConge(long idConge) {
     idemandeConge.deleteById(idConge);
 }
 
+
+    @Override
+    public int calculerSoldeConge(Long userId) {
+        User user = iuser.findById(userId).orElse(null);
+        if (user != null) {
+            int soldeConge = user.getSoldeconge(); // Obtenez le solde de congé actuel de l'utilisateur
+            LocalDate currentDate = LocalDate.now(); // Obtenez la date actuelle
+            int monthsSinceJoining = Period.between(user.getDateJoining(), currentDate).getMonths(); // Calcule le nombre de mois écoulés depuis l'adhésion de l'utilisateur
+
+            // Ajoutez 2 jours de congé pour chaque mois écoulé
+            int joursAjoutes = monthsSinceJoining * 2;
+            soldeConge += joursAjoutes;
+
+            return soldeConge;
+        }
+        return 0;
+    }
+
+    @Override
+    public DemandeConge accepterDemandeConge(Long demandeCongeId) {
+    Optional<DemandeConge> optionalDemandeConge = demandeCongeRepository.findById(demandeCongeId);
+    if (optionalDemandeConge.isPresent()) {
+        DemandeConge demandeConge = optionalDemandeConge.get();
+        
+        // Vérifier la disponibilité du solde de congé
+        int soldeConge = demandeConge.getUser().getSoldeConge();
+        if (soldeConge > 0) {
+            demandeConge.setEtatDemande("Acceptée");
+            return demandeCongeRepository.save(demandeConge);
+        } else {
+            // Si le solde de congé est insuffisant, vous pouvez définir l'état de la demande comme "Refusée"
+            demandeConge.setEtatDemande("Refusée");
+            return demandeCongeRepository.save(demandeConge);
+        }
+    }
+    return null;
+    }
+
+    @Override
+    public DemandeConge refuserDemandeConge(Long demandeCongeId) {
+        Optional<DemandeConge> optionalDemandeConge = idemandeCongeRepository.findById(demandeCongeId);
+        if (optionalDemandeConge.isPresent()) {
+            DemandeConge demandeConge = optionalDemandeConge.get();
+            demandeConge.setEtatDemande("Refusée");
+            return idemandeCongeRepository.save(demandeConge);
+        }
+        return null;
+    }
 
 
 }

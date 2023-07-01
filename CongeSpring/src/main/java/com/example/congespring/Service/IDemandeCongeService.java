@@ -15,6 +15,13 @@ public interface IDemandeCongeService {
     boolean existeEvenementEntreprise();
     boolean faireDemandeConge(DemandeConge demandeConge,long idUser,long idEquipe);
      DemandeConge RetrouverDemandeConge(long  idConge);
-    }
+    
+    int calculerSoldeConge(Long userId);
+
+    DemandeConge accepterDemandeConge(Long demandeCongeId);
+
+    DemandeConge refuserDemandeConge(Long demandeCongeId);
+
+}
 
 

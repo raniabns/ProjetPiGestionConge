@@ -23,6 +23,8 @@ public class User {
     int soldeCongeInitial;
     int soldeCongeApris;
     int soldeconge;
+    LocalDate dateJoining;
+
     @Enumerated(EnumType.STRING)
     RoleType roletype;
 
