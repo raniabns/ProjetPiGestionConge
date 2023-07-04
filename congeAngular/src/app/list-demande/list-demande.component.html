@@ -7,47 +7,77 @@
                         <h4 class="card-title ">List demande</h4>
                         <p class="card-category"> Consultez vos demandes</p>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead class=" text-primary">
-                                <th>
-                                    idConge
+                    <div class="col-md-4">
+                        <!-- Bouton pour afficher toutes les demandes de congé -->
 
-                                </th>
-                                <th>
-                                    Date Debut
-                                </th>
-                                <th>Date fin
-                                </th>
-                                <th>
-                                   duree
-                                </th>
-                                <th>
-                                    typr
-                                </th>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        {{demandeConge.idConge}}
-                                    </td>
-                                    <td>
-                                        {{demandeConge.dateDebut}}
-                                    </td>
-                                    <td>
-                                        {{demandeConge.dateFin}}
-                                    </td>
-                                    <td>
-                                        {{demandeConge.duree}}
-                                    </td>
-                                    <td >
-                                        {{demandeConge.type}}
-                                    </td>
+
+                        <!-- Formulaire pour trouver une demande de congé par ID -->
+
+                            <form (ngSubmit)="rechercherDemandeConge()">
+                                <div class="form-group">
+                                    <label for="idConge">ID de la demande de congé :</label>
+                                    <input type="number" class="form-control" id="idConge" [(ngModel)]="idConge" name="idConge">
+                                </div>
+                                <button type="submit" class="btn btn-success">Rechercher</button>
+                            </form>
+
+                            <div *ngIf="demandeConge">
+                                <h3>Informations sur la demande de congé</h3>
+                                <p>ID : {{ demandeConge.idConge}}</p>
+                                <p>Date de début : {{ demandeConge.dateDebut }}</p>
+                                <p>Date de fin : {{ demandeConge.dateFin }}</p>
+                                <p>Durée : {{ demandeConge.duree }}</p>
+                                <p>Type : {{ demandeConge.type }}</p>
+                            </div>
+
+                        <!-- Liste des demandes de congé -->
+
+                                <h4 class="card-title">Liste des demandes de congé</h4>
+
+
+
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="">
+
+                                            <th>
+                                                IDConge
+                                            </th>
+                                            <th>
+                                                Date Debut
+                                            </th>
+                                            <th>
+                                                Date fin
+                                            </th>
+                                            <th>
+                                                Duree
+                                            </th>
+                                            <th>
+                                                Type
+                                            </th>
+                                            </thead>
+                                            <tbody>
+
+
+                                <tr *ngFor="let demande of demandeConges">
+                                    <td class="text-primary">
+                                        {{demande.idConge}}</td>
+                                    <td class="text-primary">
+                                        {{demande.dateDebut}}</td>
+                                    <td class="text-primary">
+                                        {{demande.dateFin}}</td>
+                                    <td class="text-primary">
+                                        {{demande.duree}}</td>
+                                    <td class="text-primary">
+                                        {{demande.type}}</td>
                                 </tr>
-                                </tbody>
-                            </table>
-</div>
+                                            </tbody>
+                                        </table>
+
+                        </div>
+                        </div>
                 </div>
             </div>
         </div>

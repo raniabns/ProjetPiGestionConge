@@ -9,28 +9,37 @@ import {DemadecongeService} from "../Services/demadeconge.service";
   styleUrls: ['./list-demande.component.scss']
 })
 export class ListDemandeComponent implements OnInit {
-  demandeConge =new DemandeConge();
+    demandeConge: DemandeConge;
+    idConge: number;
+    demandeConges: DemandeConge[] = [];
   constructor(private ac:ActivatedRoute,
               private as:DemadecongeService) { }
 
   ngOnInit(): void {
-    this.as.RetrouverDemandeConge(this.ac.snapshot.params['idConge']).subscribe(
-        (d)=>{
-          this.demandeConge=d;
+      this.demandeConge = new DemandeConge();
+      this.idConge = null;
+      this.fetchDemandeConges()}
+    rechercherDemandeConge(): void {
+        if (this.idConge) {
+            this.as.retrouverDemandeConge(this.idConge).subscribe(
+                (demandeConge: DemandeConge) => {
+                    this.demandeConge = demandeConge;
+                },
+                (error) => {
+                    console.error(error);
+                    // Gérer l'erreur
+                }
+            );
         }
-    );
-    this.ac.params.subscribe(
-        (d)=>{
-          console.log(d)
-        }
-    );
-    //console.log(d);
-    // console.log(this.ac.snapshot.params['test'])
-
-  }
-  test(){
-    //traitement
-  }
-
-  protected readonly DemandeConge = DemandeConge;
+    }
+    fetchDemandeConges(): void {
+        this.as.getAllDemandeConge().subscribe(
+            (demandes: DemandeConge[]) => {
+                this.demandeConges = demandes;
+            },
+            (error) => {
+                console.error(error);
+            }
+        );
+    }
 }

@@ -1,8 +1,4 @@
-<div class="main-content" xmlns:th="http://www.w3.org/1999/xhtml">
-
-
-    <!-- /.nav-second-level -->
-
+<div class="main-content">
 
     <div class="container-fluid">
         <div class="row">
@@ -13,36 +9,46 @@
                         <p class="card-category">Remplissez le formulaire</p>
                     </div>
                     <div class="card-body">
-                        <form (ngSubmit)="onSubmit()">
+
+                        <form (ngSubmit)="ajouterDemandeConge()">
                             <div class="row">
                                 <div class="col-md-6">
                                     <mat-form-field class="example-full-width">
-                                        <label>Date debut</label>
-                                        <input matInput placeholder="Date de début" type="date" [(ngModel)]="demandeConge.dateDebut">
+                                        <mat-label>Date debut</mat-label>
+                                        <input matInput placeholder="Date de debut" type="date" [(ngModel)]="demandeConge.dateDebut " name="dateDebut">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-6">
                                     <mat-form-field class="example-full-width">
-                                        <label>Date fin</label>
-                                        <input matInput placeholder="Date de fin" type="date" [(ngModel)]="demandeConge.dateFin">
+                                        <mat-label>Date fin</mat-label>
+                                        <input matInput placeholder="Date de fin" type="date" [(ngModel)]="demandeConge.dateFin" name="dateFin">
+
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-6">
                                     <mat-form-field class="example-full-width">
-                                        <label>Duree</label>
-                                        <input matInput placeholder="duree" type="number" [(ngModel)]="demandeConge.duree">
+                                        <mat-label>Duree</mat-label>
+                                        <input matInput placeholder="Durée" type="number" [(ngModel)]="demandeConge.duree" name="duree">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-6">
                                     <mat-form-field class="example-full-width">
-                                        <label>Type Conge</label>
-                                        <input matInput placeholder="type" type="type" [(ngModel)]="demandeConge.type">
+                                        <mat-label>Type de congé:</mat-label>
+                                        <select matNativeControl [(ngModel)]="demandeConge.type" name="type">
+                                            <option value="conge_paye">Congé payé</option>
+                                            <option value="conge_maladie">Congé maladie</option>
+                                            <option value="conge_maternite">Congé maternité</option>
+                                            <option value="conge_ordinaire">Congé ordinaire</option>
+                                            <option value="conge_annuel">Congé annuel</option>
+                                            <option value="conge_sanssolde">Congé sans solde</option>
+                                        </select>
                                     </mat-form-field>
                                 </div>
                             </div>
                             <div class="row">
+                                <!-- Add any additional form fields here -->
                             </div>
-                            <button mat-raised-button type="submit" class="btn btn-danger pull-right">Ajouter</button>
+                            <button mat-raised-button type="submit" class="btn btn-success" >Ajouter</button>
                             <div class="clearfix"></div>
                         </form>
                         <div *ngIf="successMessage" class="alert alert-success mt-3">
@@ -51,11 +57,9 @@
                         <div *ngIf="errorMessage" class="alert alert-danger mt-3">
                             {{ errorMessage }}
                         </div>
+                    </div>
                 </div>
             </div>
-
-
         </div>
-    </div>
     </div>
 </div>
