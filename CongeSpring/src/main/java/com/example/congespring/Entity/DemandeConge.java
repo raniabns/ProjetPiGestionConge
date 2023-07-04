@@ -4,6 +4,7 @@ package com.example.congespring.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,11 +20,12 @@ public class DemandeConge {
 	@Enumerated(EnumType.STRING)
 	TypeConge type;
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	Date dateDebut;
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	Date dateFin;
 	Long duree;
-	Long nbreconge;
 
 	public DemandeConge() {
 

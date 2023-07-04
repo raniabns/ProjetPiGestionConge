@@ -1,9 +1,13 @@
 package com.example.congespring.Controller;
 
 import com.example.congespring.Entity.DemandeConge;
+import com.example.congespring.Entity.Reclamation;
 import com.example.congespring.Entity.TypeConge;
 import com.example.congespring.Service.IDemandeCongeService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +15,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/DemandeConge")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class DemandeCongeController {
     @Autowired
     public IDemandeCongeService iDemandeCongeservice;
@@ -24,12 +29,18 @@ public class DemandeCongeController {
     }
 
     @GetMapping("/allDemandeConge")
-    public List<DemandeConge> AfficheDemandeConge() {
-        return iDemandeCongeservice.AfficheDemandeConge();
-        }
+    @ResponseBody
+    @ApiResponses
+    public ResponseEntity<List<DemandeConge>> AfficheDemandeConge() {
+        List<DemandeConge> listdemande =iDemandeCongeservice.AfficheDemandeConge();
+        return ResponseEntity.ok(listdemande);
+    }
+
+
     @GetMapping("/TrouverUnedemandeConge/{idConge}")
     public DemandeConge RetrouverDemandeConge(@PathVariable("idConge")long  idConge){
         return iDemandeCongeservice.RetrouverDemandeConge(idConge);
+
     }
 
     @PutMapping("/modifconge/{idConge}")
@@ -73,7 +84,7 @@ public class DemandeCongeController {
         if (demandeAcceptee) {
             return ResponseEntity.ok("Demande de congé créée avec succès.");
         } else {
-            return ResponseEntity.badRequest().body("Impossible de créer la demande de congé.");
+            return ResponseEntity.badRequest().body("{\"message\": \"Impossible de créer la demande de congé.\"}");
         }
     }
 }

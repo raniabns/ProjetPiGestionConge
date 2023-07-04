@@ -34,6 +34,8 @@ public class User {
     private Set<DemandeConge> conges;
     @ManyToOne
     private Equipe equipe;
+
+
 }
 
 

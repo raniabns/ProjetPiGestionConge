@@ -2,6 +2,7 @@ package com.example.congespring.Service;
 
 import com.example.congespring.Entity.DemandeConge;
 import com.example.congespring.Entity.Equipe;
+import com.example.congespring.Entity.Reclamation;
 import com.example.congespring.Entity.User;
 import com.example.congespring.Repository.IEquipe;
 import com.example.congespring.Repository.IUser;
@@ -9,6 +10,7 @@ import com.example.congespring.Repository.IDemandeConge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -79,18 +81,11 @@ public class DemandeCongeService implements IDemandeCongeService {
     }
 
 
-    /*@Override
-        public boolean existeEvenementEntreprise() {
-            // Vérifier l'absence d'événement dans l'entreprise
-
-            // Implémentation spécifique
-
-            return false; // ou true s'il existe un événement
-        }*/
 @Override
     public boolean faireDemandeConge(DemandeConge demandeConge,long idUser,long idEquipe) {
         // Vérifier le solde de congé de l'employé
     User user = iuser.findById(idUser).orElse(null);
+
     if (user == null || !verifierSoldeConge(idUser, demandeConge.getDuree())) {
         return false;}
     if (!verifierPresenceCollaborateurs(idEquipe)){
@@ -98,14 +93,7 @@ public class DemandeCongeService implements IDemandeCongeService {
     }
 
 
-        // Vérifier l'absence d'événement dans l'entreprise
-       /* if (existeEvenementEntreprise()) {
-            return false;
-        }*/
-
-        // Effectuer d'autres vérifications spécifiques si nécessaire
-
-        // Soumettre la demande de congé
+    demandeConge.setUser(user);
         idemandeConge.save(demandeConge);
 
         return true;
@@ -123,9 +111,11 @@ public class DemandeCongeService implements IDemandeCongeService {
     }
     @Override
     public List<DemandeConge> AfficheDemandeConge() {
-        List<DemandeConge> conges= (List<DemandeConge>) idemandeConge.findAll();
-        return conges;
-    }
+        return  idemandeConge.findAll();
+
+
+            }
+
     @Override
     public DemandeConge RetrouverDemandeConge(long  idConge){
    return idemandeConge.findById(idConge).get();
