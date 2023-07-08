@@ -33,6 +33,7 @@ public class User {
     @JsonIgnore
     private Set<DemandeConge> conges;
     @ManyToOne
+    @JsonIgnore
     private Equipe equipe;
 
 

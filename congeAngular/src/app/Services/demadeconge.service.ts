@@ -37,7 +37,6 @@ export class DemadecongeService {
     }
 
 
-
     retrouverDemandeConge(idConge: number): Observable<DemandeConge> {
         return this.http.get<DemandeConge>(`${this.baseUrl}/TrouverUnedemandeConge/${idConge}`);
     }
@@ -45,4 +44,9 @@ export class DemadecongeService {
         const url = `${this.baseUrl}/allDemandeConge`;
         return this.http.get<DemandeConge[]>(url);
     }
+    modifierDemandeConge(idConge: number, demandeConge: DemandeConge): Observable<any> {
+        const urli = `${this.baseUrl}/modifconge/${idConge}`;
+        return this.http.put(urli, demandeConge);
+    }
+
 }

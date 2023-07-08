@@ -4,6 +4,7 @@ export class DemandeConge{
     dateFin!: Date;
     duree!:number;
     type!:TypeConge;
+    certificatFile!:File;
 
 }
 export enum TypeConge {

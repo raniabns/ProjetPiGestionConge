@@ -32,6 +32,7 @@ export class ListDemandeComponent implements OnInit {
             );
         }
     }
+
     fetchDemandeConges(): void {
         this.as.getAllDemandeConge().subscribe(
             (demandes: DemandeConge[]) => {

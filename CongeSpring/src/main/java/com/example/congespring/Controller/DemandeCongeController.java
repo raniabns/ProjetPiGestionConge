@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -21,7 +23,7 @@ public class DemandeCongeController {
     @Autowired
     public IDemandeCongeService iDemandeCongeservice;
 
-    @PostMapping("/ajoutconge")
+    @PostMapping("/ajoutPresence")
     @ResponseBody
     public DemandeConge ajouterdemandeConge(@RequestBody DemandeConge c) {
         return iDemandeCongeservice.ajouterdemandeConge(c);
@@ -32,13 +34,13 @@ public class DemandeCongeController {
     @ResponseBody
     @ApiResponses
     public ResponseEntity<List<DemandeConge>> AfficheDemandeConge() {
-        List<DemandeConge> listdemande =iDemandeCongeservice.AfficheDemandeConge();
+        List<DemandeConge> listdemande = iDemandeCongeservice.AfficheDemandeConge();
         return ResponseEntity.ok(listdemande);
     }
 
 
     @GetMapping("/TrouverUnedemandeConge/{idConge}")
-    public DemandeConge RetrouverDemandeConge(@PathVariable("idConge")long  idConge){
+    public DemandeConge RetrouverDemandeConge(@PathVariable("idConge") long idConge) {
         return iDemandeCongeservice.RetrouverDemandeConge(idConge);
 
     }
@@ -46,6 +48,7 @@ public class DemandeCongeController {
     @PutMapping("/modifconge/{idConge}")
     public DemandeConge modifierdemandeConge(@PathVariable("idConge") long idConge, @RequestBody DemandeConge c) {
         return iDemandeCongeservice.modifierdemandeConge(idConge, c);
+
     }
 
     @DeleteMapping("/{idConge}")
@@ -55,19 +58,20 @@ public class DemandeCongeController {
     }
 
     @GetMapping("/{idEquipe}/presence")
-    public  boolean verifierPresenceCollaborateurs(@PathVariable("idEquipe") long idEquipe){
+    public boolean verifierPresenceCollaborateurs(@PathVariable("idEquipe") long idEquipe) {
 
-      return  iDemandeCongeservice.verifierPresenceCollaborateurs(idEquipe);
+        return iDemandeCongeservice.verifierPresenceCollaborateurs(idEquipe);
     }
+
     @GetMapping("/verifier-solde-conge/{idUser}/{duree}")
-    public boolean verifierSoldeConge(@PathVariable("idUser") long idUser, @PathVariable("duree")long duree) {
+    public boolean verifierSoldeConge(@PathVariable("idUser") long idUser, @PathVariable("duree") long duree) {
 
         // Vérifier le solde de congé
         return iDemandeCongeservice.verifierSoldeConge(idUser, duree);
     }
 
     @PostMapping("/demandes/{idUser}/{idEquipe}")
-    public ResponseEntity<String> faireDemandeConge(@RequestBody DemandeConge demandeConge,@PathVariable("idUser") long idUser,@PathVariable("idEquipe")long idEquipe) {
+    public ResponseEntity<String> faireDemandeConge(@RequestBody DemandeConge demandeConge, @PathVariable("idUser") long idUser, @PathVariable("idEquipe") long idEquipe) {
         boolean soldeSuffisant = iDemandeCongeservice.verifierSoldeConge(idUser, demandeConge.getDuree());
 
         if (!soldeSuffisant) {
@@ -78,7 +82,6 @@ public class DemandeCongeController {
         if (!presencecollaborateur) {
             return ResponseEntity.badRequest().body("moins de 20% present dans l'equipe.");
         }
-
 
         boolean demandeAcceptee = iDemandeCongeservice.faireDemandeConge(demandeConge,idUser,idEquipe);
         if (demandeAcceptee) {

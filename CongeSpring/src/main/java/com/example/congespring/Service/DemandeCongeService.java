@@ -1,17 +1,21 @@
 package com.example.congespring.Service;
 
-import com.example.congespring.Entity.DemandeConge;
-import com.example.congespring.Entity.Equipe;
-import com.example.congespring.Entity.Reclamation;
-import com.example.congespring.Entity.User;
+import com.example.congespring.Entity.*;
 import com.example.congespring.Repository.IEquipe;
 import com.example.congespring.Repository.IUser;
 import com.example.congespring.Repository.IDemandeConge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class DemandeCongeService implements IDemandeCongeService {
@@ -75,45 +79,54 @@ public class DemandeCongeService implements IDemandeCongeService {
         return nombreCollaborateursPresent >= seuilPresence;
     }
 
-    @Override
-    public boolean existeEvenementEntreprise() {
-        return false;
-    }
+
 
 
 @Override
     public boolean faireDemandeConge(DemandeConge demandeConge,long idUser,long idEquipe) {
-        // Vérifier le solde de congé de l'employé
+    // Vérifier le solde de congé de l'employé
     User user = iuser.findById(idUser).orElse(null);
 
     if (user == null || !verifierSoldeConge(idUser, demandeConge.getDuree())) {
-        return false;}
-    if (!verifierPresenceCollaborateurs(idEquipe)){
-        return  false;
+        return false;
+    }
+    if (!verifierPresenceCollaborateurs(idEquipe)) {
+        return false;
+
     }
 
 
     demandeConge.setUser(user);
-        idemandeConge.save(demandeConge);
+    idemandeConge.save(demandeConge);
 
         return true;
     }
 
     @Override
     public DemandeConge modifierdemandeConge(long idConge, DemandeConge c) {
-        DemandeConge d = idemandeConge.findById(idConge).get();
+        DemandeConge d = idemandeConge.findById(idConge).orElse(null);
 
-        d.setDateDebut(c.getDateDebut());
-        d.setDateFin(c.getDateFin());
-        d.setType(c.getType());
-        d.setDuree(c.getDuree());
-        return idemandeConge.save(c);
-    }
+        if (d != null) {
+            // Mise à jour des propriétés spécifiées dans l'objet c
+            if (c.getDateDebut() != null) {
+                d.setDateDebut(c.getDateDebut());
+            }
+            if (c.getDateFin() != null) {
+                d.setDateFin(c.getDateFin());
+            }
+            if (c.getType() != null) {
+                d.setType(c.getType());
+            }
+            if (c.getDuree() != null) {
+                d.setDuree(c.getDuree());
+            }
+
+            return idemandeConge.save(d);
+        }return null;}
+
     @Override
     public List<DemandeConge> AfficheDemandeConge() {
         return  idemandeConge.findAll();
-
-
             }
 
     @Override

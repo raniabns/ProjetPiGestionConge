@@ -1,6 +1,7 @@
 package com.example.congespring.Service;
 
 import com.example.congespring.Entity.DemandeConge;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -12,8 +13,8 @@ public interface IDemandeCongeService {
     boolean verifierSoldeConge(long idUser, long duree);
    boolean verifierPresenceCollaborateurs(long idEquipe);
 
-    boolean existeEvenementEntreprise();
-    boolean faireDemandeConge(DemandeConge demandeConge,long idUser,long idEquipe);
+
+    boolean faireDemandeConge(DemandeConge demandeConge, long idUser, long idEquipe);
      DemandeConge RetrouverDemandeConge(long  idConge);
     }
 

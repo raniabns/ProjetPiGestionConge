@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,6 +27,7 @@ public class DemandeConge {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	Date dateFin;
 	Long duree;
+
 
 	public DemandeConge() {
 
