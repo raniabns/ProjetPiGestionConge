@@ -8,6 +8,7 @@ import { ComponentsModule } from './components/components.module';
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import {ListDemandeComponent} from "./list-demande/list-demande.component";
+import {Demandeconge} from "./Demandeconge/Demandeconge.component";
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {ListDemandeComponent} from "./list-demande/list-demande.component";
     AppComponent,
     AdminLayoutComponent,
     ListDemandeComponent
+
 
 
   ],

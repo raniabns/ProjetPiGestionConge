@@ -5,10 +5,10 @@ import {forms} from "@angular/core/schematics/migrations/typed-forms/util";
 
 @Component({
   selector: 'app-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.css']
+  templateUrl: './Demandeconge.component.html',
+  styleUrls: ['./Demandeconge.component.css']
 })
-export class UserProfileComponent implements OnInit {
+export class Demandeconge implements OnInit {
     demandeConge: any = {};
     idUser: number = 1; // Remplacez par l'ID de l'utilisateur
     idEquipe: number = 1; // Remplacez par l'ID de l'équipe
